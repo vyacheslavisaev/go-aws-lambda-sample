@@ -24,23 +24,9 @@ Resources:
       Value: !GetAtt MyFunction
       Description: SSM Parameter for running date command.
 
-  # MyFunctionAlias:
-  #    Type: AWS::Lambda::Alias
-  #    Properties:
-  #      FunctionName: !Ref MyFunction
-  #      Name: MyFunctionAlias
-
 Outputs:
   FunctionName:
     Description: Created Function Name
     Value:  !Ref MyFunction
     Export:
       Name: !Join [ ":", [ !Ref "AWS::StackName", FunctionName ] ]
-
-
-# Outputs:
-#   FunctionName:
-#     Description: Created Function Name
-#     Value: !Select [2, !Split [ ":", !GetAtt [ MyFunctionAlias, AliasArn ]]]
-#     Export:
-#       Name: !Join [ ":", [ !Ref "AWS::StackName", FunctionName ] ]
