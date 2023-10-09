@@ -1,0 +1,46 @@
+Transform: AWS::Serverless-2016-10-31
+Resources:
+
+  MyFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: makefile
+    Properties:
+      Runtime: provided.al2
+      CodeUri: ./my-function
+      Handler: bootstrap
+
+  MyFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${MyFunction}
+      RetentionInDays: 7
+
+  BasicParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Join [ "/", [ !Ref "AWS::StackName", FunctionName ] ] 
+      Type: String
+      Value: !GetAtt MyFunction
+      Description: SSM Parameter for running date command.
+
+  # MyFunctionAlias:
+  #    Type: AWS::Lambda::Alias
+  #    Properties:
+  #      FunctionName: !Ref MyFunction
+  #      Name: MyFunctionAlias
+
+Outputs:
+  FunctionName:
+    Description: Created Function Name
+    Value:  !Ref MyFunction
+    Export:
+      Name: !Join [ ":", [ !Ref "AWS::StackName", FunctionName ] ]
+
+
+# Outputs:
+#   FunctionName:
+#     Description: Created Function Name
+#     Value: !Select [2, !Split [ ":", !GetAtt [ MyFunctionAlias, AliasArn ]]]
+#     Export:
+#       Name: !Join [ ":", [ !Ref "AWS::StackName", FunctionName ] ]
