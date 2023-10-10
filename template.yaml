@@ -13,16 +13,8 @@ Resources:
   MyFunctionLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub /aws/lambda/${MyFunction}
+      LogGroupName: !Sub /my/stack/lambda/${MyFunction}
       RetentionInDays: 7
-
-  BasicParameter:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Name: !Join [ "/", [ !Ref "AWS::StackName", FunctionName ] ] 
-      Type: String
-      Value: !GetAtt MyFunction
-      Description: SSM Parameter for running date command.
 
 Outputs:
   FunctionName:
