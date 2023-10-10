@@ -1,4 +1,4 @@
-BIN_FILE_NAME := bootstrap
+BIN_FILE_NAME := ./bin/bootstrap
 
 GO_BUILD_ENV := GOOS=linux GOARCH=amd64 CGO_ENABLED=0 
 
