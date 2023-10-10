@@ -1,11 +1,11 @@
 AWS_STACK_NAME=aws-lambda-sample-golang
 
-.PHONY: build
-build:
+.PHONY: cloud-build
+cloud-build:
 	sam build
 
-.PHONY: deploy
-deploy: build
+.PHONY: cloud-deploy
+cloud-deploy: cloud-build
 	sam deploy \
  		--stack-name  ${AWS_STACK_NAME}\
   		--capabilities CAPABILITY_IAM \
@@ -19,8 +19,8 @@ cloud-test:
 cloud-watch:
 	sam sync --stack-name ${AWS_STACK_NAME} --watch
 
-.PHONY: destroy
-destroy:
+.PHONY: cloud-destroy
+cloud-destroy:
 	sam delete --stack-name ${AWS_STACK_NAME}
 
 .PHONY: cloud-traces
@@ -30,3 +30,13 @@ cloud-traces:
 .PHONY: cloud-logs
 cloud-logs:
 	sam logs --stack-name ${AWS_STACK_NAME}
+
+.PHONY: cdktf-deploy
+cdktf-deploy:
+	cd infra-cdktf
+	cdktf deploy
+
+.PHONY: cdktf-destroy
+cdktf-destroy
+	cd infra-cdktf
+	cdktf destroy
