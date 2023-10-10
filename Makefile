@@ -1,40 +1,32 @@
 AWS_STACK_NAME=aws-lambda-sample-golang
-# TOP_TARGETS := build
-# SUBDIRS := my-function
 
-# $(TOPTARGETS): $(SUBDIRS)
-# $(SUBDIRS):
-# 	$(MAKE) -C $@ $(MAKECMDGOALS)
-
-# .PHONY: $(TOP_TARGETS) $(SUBDIRS)
-
-.Phony: build
+.PHONY: build
 build:
 	sam build
 
-.Phony: deploy
+.PHONY: deploy
 deploy: build
 	sam deploy \
  		--stack-name  ${AWS_STACK_NAME}\
   		--capabilities CAPABILITY_IAM \
    		--resolve-s3
 
-.Phony: cloud-test
+.PHONY: cloud-test
 cloud-test:
 	./bin/cloud-test.sh
 
-.Phony: cloud-watch
+.PHONY: cloud-watch
 cloud-watch:
 	sam sync --stack-name ${AWS_STACK_NAME} --watch
 
-.Phony: cloud-destroy
-cloud-destroy:
+.PHONY: destroy
+destroy:
 	sam delete --stack-name ${AWS_STACK_NAME}
 
-.Phony: cloud-traces
+.PHONY: cloud-traces
 cloud-traces:
 	sam traces --stack-name ${AWS_STACK_NAME}
 
-.Phony: cloud-logs
+.PHONY: cloud-logs
 cloud-logs:
 	sam logs --stack-name ${AWS_STACK_NAME}
